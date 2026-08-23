@@ -78,7 +78,11 @@
     ];
     if (!numericKeys.every((key) => Number.isFinite(value?.[key]))) return null;
 
-    return Object.fromEntries(numericKeys.map((key) => [key, value[key]]));
+    const place = typeof value?.place === "string" ? value.place.slice(0, 80) : "";
+    return {
+      ...Object.fromEntries(numericKeys.map((key) => [key, value[key]])),
+      ...(place ? { place } : {})
+    };
   }
 
   function relativeUpdateTime(updatedAt) {
@@ -104,6 +108,8 @@
       widget.querySelector(".x-zen-weather-condition").textContent = describeWeather(data.weatherCode);
       widget.querySelector(".x-zen-weather-range").textContent =
         `H ${Math.round(data.high)}°  L ${Math.round(data.low)}°  Feels ${Math.round(data.apparentTemperature)}°`;
+      widget.querySelector(".x-zen-weather-place").textContent = data.place || "";
+      widget.querySelector(".x-zen-weather-place").hidden = !data.place;
     }
   }
 
@@ -115,6 +121,31 @@
         timeout: 12000
       });
     });
+  }
+
+  async function lookupPlace(latitude, longitude) {
+    // Best-effort: a missing city label should never break the forecast.
+    try {
+      const query = new URLSearchParams({
+        latitude: latitude.toString(),
+        longitude: longitude.toString(),
+        localityLanguage: "en"
+      });
+      const response = await fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?${query}`
+      );
+      if (!response.ok) return "";
+      const payload = await response.json();
+      const city = payload.city || payload.locality || payload.principalSubdivision;
+      if (typeof city !== "string" || !city.trim()) return "";
+      const country =
+        typeof payload.countryCode === "string" && payload.countryCode.trim()
+          ? ` ${payload.countryCode.trim()}`
+          : "";
+      return `${city.trim()}${country}`;
+    } catch {
+      return "";
+    }
   }
 
   async function updateWeather() {
@@ -146,7 +177,11 @@
         low: payload.daily?.temperature_2m_min?.[0],
         temperature: payload.current?.temperature_2m,
         updatedAt: Date.now(),
-        weatherCode: payload.current?.weather_code
+        weatherCode: payload.current?.weather_code,
+        place: await lookupPlace(
+          Number(position.coords.latitude.toFixed(2)),
+          Number(position.coords.longitude.toFixed(2))
+        )
       });
       if (!data) throw new Error("Weather response was incomplete");
       if (requestedRevision !== requestRevision) return;
@@ -191,6 +226,7 @@
       <div class="x-zen-weather-current" hidden>
         <div class="x-zen-weather-temperature">--°</div>
         <div class="x-zen-weather-condition">Unavailable</div>
+        <div class="x-zen-weather-place" hidden></div>
         <div class="x-zen-weather-range"></div>
       </div>
       <div class="x-zen-weather-footer">

@@ -335,17 +335,16 @@ assert.match(hourlyBell, /x-zen-sound/);
 assert.match(hourlyBell, /hourlyBellEnabled/);
 assert.match(hourlyBell, /aria-pressed/);
 assert.match(hourlyBell, /x-zen-preview-hourly-bell/);
-assert.match(hourlyBell, /result\[ENABLED_KEY\] === true/);
+assert.match(hourlyBell, /chrome\.storage\.session\.set/);
+assert.match(hourlyBell, /x-zen-wake-hourly-bell/);
 
 const offscreen = await readFile(new URL("offscreen.js", root), "utf8");
 assert.match(offscreen, /assets\/audio\/hourly-bell\.mp3/);
 assert.match(offscreen, /audio\.currentTime = 0/);
 assert.match(offscreen, /audio\.play\(\)/);
 assert.match(offscreen, /STOP_MESSAGE/);
-assert.match(offscreen, /hourlyBellEnabled/);
-assert.match(offscreen, /chrome\.storage\.local\.get/);
-assert.match(offscreen, /chrome\.storage\.onChanged/);
-assert.match(offscreen, /soundStateRevision/);
+assert.match(offscreen, /playbackToken/);
+assert.doesNotMatch(offscreen, /chrome\.storage/);
 
 const packageScript = await readFile(
   new URL("scripts/package.mjs", root),

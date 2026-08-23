@@ -4,6 +4,7 @@
   const BUTTON_ID = "x-zen-sound";
   const ENABLED_KEY = "hourlyBellEnabled";
   const PREVIEW_MESSAGE = "x-zen-preview-hourly-bell";
+  const WAKE_MESSAGE = "x-zen-wake-hourly-bell";
   let enabled = false;
 
   function render(button) {
@@ -21,7 +22,7 @@
   async function toggle(button) {
     enabled = !enabled;
     render(button);
-    await chrome.storage.local.set({ [ENABLED_KEY]: enabled });
+    await chrome.storage.session.set({ [ENABLED_KEY]: enabled });
     if (enabled) {
       try {
         await chrome.runtime.sendMessage({ type: PREVIEW_MESSAGE });
@@ -55,14 +56,34 @@
     return button;
   }
 
-  chrome.storage.local.get(ENABLED_KEY).then((result) => {
-    enabled = result[ENABLED_KEY] === true;
+  // The toggle lives in session storage so it resets once per browser
+  // session. Session storage is hidden from content scripts until the
+  // background worker has exposed it, so wake the worker and retry once.
+  async function readEnabled() {
+    try {
+      const result = await chrome.storage.session.get(ENABLED_KEY);
+      return result[ENABLED_KEY] === true;
+    } catch {
+      try {
+        await chrome.runtime.sendMessage({ type: WAKE_MESSAGE });
+      } catch {}
+      try {
+        const result = await chrome.storage.session.get(ENABLED_KEY);
+        return result[ENABLED_KEY] === true;
+      } catch {
+        return false;
+      }
+    }
+  }
+
+  void readEnabled().then((stored) => {
+    enabled = stored;
     const button = ensureButton();
     if (button) render(button);
   });
 
   chrome.storage.onChanged.addListener((changes, areaName) => {
-    if (areaName !== "local" || !changes[ENABLED_KEY]) return;
+    if (areaName !== "session" || !changes[ENABLED_KEY]) return;
     enabled = changes[ENABLED_KEY].newValue === true;
     const button = ensureButton();
     if (button) render(button);

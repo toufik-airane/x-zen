@@ -8,7 +8,7 @@ A calmer, centered desktop X.com feed with noise removal and small focus tools.
 · [Website](https://toufik-airane.github.io/x-zen/)
 · [Privacy policy](PRIVACY.md)
 
-Current version: **1.0.9** · Requires Chrome 116 or later
+Current version: **1.0.10** · Requires Chrome 116 or later
 
 ## Highlights
 
@@ -108,7 +108,7 @@ Store copy, privacy answers, and graphic-asset details are in
 ## Release process
 
 The manifest version and signed tag must match. Pushing a signed tag such as
-`v1.0.9` runs source checks and Semgrep, builds and validates the ZIP, writes a
+`v1.0.10` runs source checks and Semgrep, builds and validates the ZIP, writes a
 SHA-256 checksum, and publishes both files in a GitHub Release.
 
 X can change its page structure without notice. If a removed control returns,

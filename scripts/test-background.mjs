@@ -57,7 +57,8 @@ const chrome = {
     }
   },
   storage: {
-    local: {
+    session: {
+      setAccessLevel() {},
       async get() {
         return { hourlyBellEnabled: bellEnabled };
       }
@@ -91,7 +92,7 @@ assert.equal(
 );
 
 bellEnabled = true;
-listeners.storage[0]({ hourlyBellEnabled: { newValue: true } }, "local");
+listeners.storage[0]({ hourlyBellEnabled: { newValue: true } }, "session");
 await flushTasks();
 const [alarmName, alarmOptions] = calls.alarmCreate.at(-1);
 assert.equal(alarmName, "x-zen-hourly-bell");
@@ -107,7 +108,7 @@ assert.ok(
 );
 
 bellEnabled = false;
-listeners.storage[0]({ hourlyBellEnabled: { newValue: false } }, "local");
+listeners.storage[0]({ hourlyBellEnabled: { newValue: false } }, "session");
 await flushTasks();
 assert.ok(
   calls.messages.some((message) => message.type === "x-zen-stop-hourly-bell")

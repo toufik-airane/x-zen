@@ -3,6 +3,18 @@
 All notable changes to x-zen are documented here. Versions follow
 [Semantic Versioning](https://semver.org/).
 
+## 1.0.10 — 2026-08-24
+
+- Make the hourly bell opt-in per browser session: the sound control starts
+  disabled each time Chrome starts and no longer persists across visits.
+- Fix hourly bell playback on Chrome builds that do not expose storage APIs
+  to offscreen documents; the background worker now gates playback and the
+  audio layer only obeys play/stop messages.
+- Fix a race where enabling the hourly bell could cancel its own preview
+  chime.
+- Show the approximate city in the weather card using the same rounded
+  coordinates already shared with Open-Meteo.
+
 ## 1.0.9 — 2026-08-22
 
 - Reduce the Home and Refresh cooldown from six seconds to five seconds.
