@@ -316,7 +316,17 @@ header[role="banner"] [data-testid="SideNav_AccountSwitcher_Button"]
   top: 0;
   right: auto;
   left: 0;
+  box-sizing: border-box;
+  height: 14px;
+  min-height: 0;
+  padding: 0 6px;
+  overflow: hidden;
+  border-radius: 999px;
   background: color-mix(in srgb, Canvas 92%, transparent);
+}
+
+.x-zen-outline-current .x-zen-outline-label {
+  max-width: 114px;
 }
 
 .x-zen-outline-current[hidden] {

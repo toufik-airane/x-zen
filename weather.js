@@ -220,7 +220,7 @@
         <button type="button" class="x-zen-weather-update" aria-label="Update local weather">↻</button>
       </div>
       <div class="x-zen-weather-consent">
-        <p>x-zen rounds your browser location, sends it to Open-Meteo, and does not store the coordinates.</p>
+        <p>x-zen rounds your browser location and sends it to Open-Meteo for the forecast and to BigDataCloud for an approximate city label. Coordinates are not stored.</p>
         <button type="button" class="x-zen-weather-enable">Share approximate location</button>
       </div>
       <div class="x-zen-weather-current" hidden>

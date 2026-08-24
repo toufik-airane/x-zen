@@ -1,6 +1,6 @@
 # x-zen Privacy Policy
 
-Effective date: August 21, 2026
+Effective date: August 24, 2026
 
 x-zen has one purpose: make the desktop X.com feed calmer and easier to focus
 on. It removes selected interface elements and promoted posts, centers the
@@ -16,25 +16,34 @@ feed, limits rapid refreshes, and adds optional focus tools.
 - **Location:** only after the user selects **Share approximate location**, the
   browser gives x-zen the device location. x-zen rounds latitude and
   longitude to two decimal places before sending them over HTTPS to Open-Meteo
-  to request local weather. x-zen does not store the exact or rounded
-  coordinates.
+  to request local weather. The same rounded coordinates are sent over HTTPS
+  to BigDataCloud's reverse-geocoding service to look up an approximate city
+  name (for example "Paris FR") shown on the weather card. If that lookup
+  fails, weather still works and the city label is simply omitted. x-zen does
+  not store the exact or rounded coordinates, and the city name is kept only
+  in the local weather cache described below.
 - **Extension settings:** feed width and interface preferences are stored with
   Chrome synchronized storage. Google can synchronize these values when Chrome
   Sync is enabled.
 - **Focus, sound, and weather state:** the Pomodoro state, optional hourly-bell
-  preference, and latest weather result are stored locally in Chrome. Cached
-  weather is treated as stale after 30 minutes and is then updated while
-  weather remains enabled. The cache contains conditions and temperatures, not
-  coordinates. The bell is a bundled local file and makes no network request.
+  preference, and latest weather result (including the approximate city name)
+  are stored locally in Chrome. The hourly-bell preference lives in Chrome's
+  session storage and resets when the browser session ends. Cached weather is
+  treated as stale after 30 minutes and is then updated while weather remains
+  enabled. The cache contains conditions, temperatures, and the approximate
+  city name, not coordinates. The bell is a bundled local file and makes no
+  network request.
 
 ## Data sharing
 
-Rounded coordinates are sent only to Open-Meteo when the user enables or
-updates weather. Open-Meteo can process the request IP address and coordinates
-under its [Terms and Privacy policy](https://open-meteo.com/en/terms), which
-states that API server logs can be retained for up to 90 days. No other user
-data is sold, shared, or transferred. x-zen has no advertising, analytics,
-user accounts, or developer-operated server.
+Rounded coordinates are sent only to Open-Meteo (weather forecast) and to
+BigDataCloud (approximate city lookup) when the user enables or updates
+weather. Open-Meteo can process the request IP address and coordinates under
+its [Terms and Privacy policy](https://open-meteo.com/en/terms), which states
+that API server logs can be retained for up to 90 days. BigDataCloud processes
+the request under its [privacy policy](https://www.bigdatacloud.com/privacy/).
+No other user data is sold, shared, or transferred. x-zen has no advertising,
+analytics, user accounts, or developer-operated server.
 
 ## Retention and deletion
 
@@ -62,5 +71,5 @@ Material changes to these practices will be disclosed in the extension before
 the changed handling begins. Questions can be sent through the support contact
 on the x-zen Chrome Web Store listing.
 
-x-zen is an independent extension and is not affiliated with X Corp. or
-Open-Meteo.
+x-zen is an independent extension and is not affiliated with X Corp.,
+Open-Meteo, or BigDataCloud.
