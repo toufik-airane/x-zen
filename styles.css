@@ -311,11 +311,6 @@ header[role="banner"] [data-testid="SideNav_AccountSwitcher_Button"]
 }
 
 .x-zen-outline-current {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  right: auto;
-  left: 0;
   box-sizing: border-box;
   height: 14px;
   min-height: 0;
@@ -345,6 +340,17 @@ header[role="banner"] [data-testid="SideNav_AccountSwitcher_Button"]
   width: 1px;
   height: min(100%, calc(var(--x-zen-outline-count, 1) * 16px));
   background: color-mix(in srgb, currentColor 10%, transparent);
+  content: "";
+}
+
+.x-zen-outline-track::after {
+  position: absolute;
+  top: 0;
+  right: auto;
+  left: 5px;
+  width: 1px;
+  height: min(100%, calc(var(--x-zen-outline-count, 1) * 16px));
+  background: color-mix(in srgb, Canvas 92%, transparent);
   content: "";
 }
 
