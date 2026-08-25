@@ -23,6 +23,7 @@
     /\/(?:[^/]+\/status\/\d+\/(?:photo|video)\/\d+|[^/]+\/(?:photo|header_photo))\/?$/;
   const MEDIA_VIEWER_SELECTOR =
     '[role="dialog"] [data-testid="swipe-to-dismiss"]';
+  const HOVER_CARD_SELECTOR = '[data-testid="HoverCard"]';
   const POMODORO_DURATION_BY_CODE = Object.freeze({
     Digit1: 15,
     Digit2: 30,
@@ -61,14 +62,20 @@
   let revealFrame;
   let waitingForNewPosts = false;
   let newPostsWaitTimer;
+  function isExtensionContextAlive() {
+    return Boolean(chrome?.storage);
+  }
+
   const cooldownReady = chrome.storage.local
     .get(REFRESH_COOLDOWN_KEY)
     .then((result) => {
       const storedValue = Number(result[REFRESH_COOLDOWN_KEY]);
       refreshCooldownUntil = Number.isFinite(storedValue) ? storedValue : 0;
-    });
+    })
+    .catch(() => {});
 
   function applySettings(value) {
+    if (!isExtensionContextAlive()) return;
     const settings = sanitize(value);
     document.documentElement.dataset.xZenHideRightRail = String(
       settings.hideRightRail
@@ -88,6 +95,8 @@
       MEDIA_VIEWER_PATH_PATTERN.test(location.pathname) ||
       Boolean(document.querySelector(MEDIA_VIEWER_SELECTOR));
     document.documentElement.dataset.xZenMediaViewer = String(mediaViewerOpen);
+    const hoverCardOpen = Boolean(document.querySelector(HOVER_CARD_SELECTOR));
+    document.documentElement.dataset.xZenHoverCard = String(hoverCardOpen);
   }
 
   function shakeButton(button) {
@@ -154,6 +163,7 @@
 
   async function tryRefresh(trigger) {
     await cooldownReady;
+    if (!isExtensionContextAlive()) return;
     if (Date.now() < refreshCooldownUntil) {
       shakeButton(trigger);
       return;
@@ -161,9 +171,9 @@
 
     refreshCooldownUntil = Date.now() + HOME_COOLDOWN_MS;
     showCooldown(trigger);
-    await chrome.storage.local.set({
-      [REFRESH_COOLDOWN_KEY]: refreshCooldownUntil
-    });
+    await chrome.storage.local
+      .set({ [REFRESH_COOLDOWN_KEY]: refreshCooldownUntil })
+      .catch(() => {});
 
     const pendingPostsVisible = Boolean(getNewPostsButton());
     const homeLink = document.querySelector(HOME_LINK_SELECTOR);
@@ -376,9 +386,12 @@
   applySettings(defaults);
   updateMediaViewerState();
 
-  chrome.storage.sync.get(storageKey).then((result) => {
-    applySettings(result[storageKey]);
-  });
+  chrome.storage.sync
+    .get(storageKey)
+    .then((result) => {
+      applySettings(result[storageKey]);
+    })
+    .catch(() => {});
 
   chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName === "sync" && changes[storageKey]) {

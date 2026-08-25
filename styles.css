@@ -66,6 +66,13 @@ html[data-x-zen-media-viewer="true"] header[role="banner"] [data-testid="SideNav
   display: none !important;
 }
 
+/* Keep X's profile hover card above the fixed gadgets without hiding them. */
+html[data-x-zen-hover-card="true"] #x-zen-pomodoro,
+html[data-x-zen-hover-card="true"] #x-zen-weather {
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
 /* Use part of the space released by the right rail on desktop screens. */
 @media (min-width: 600px) {
   html[data-x-zen-hide-right-rail="true"] [data-testid="primaryColumn"] {
@@ -317,7 +324,7 @@ header[role="banner"] [data-testid="SideNav_AccountSwitcher_Button"]
   padding: 0 6px;
   overflow: hidden;
   border-radius: 999px;
-  background: color-mix(in srgb, Canvas 92%, transparent);
+  background: color-mix(in srgb, currentColor 7%, transparent);
 }
 
 .x-zen-outline-current .x-zen-outline-label {
@@ -330,28 +337,6 @@ header[role="banner"] [data-testid="SideNav_AccountSwitcher_Button"]
 
 .x-zen-outline-track::-webkit-scrollbar {
   display: none;
-}
-
-.x-zen-outline-track::before {
-  position: absolute;
-  top: 0;
-  right: auto;
-  left: 5px;
-  width: 1px;
-  height: min(100%, calc(var(--x-zen-outline-count, 1) * 16px));
-  background: color-mix(in srgb, currentColor 10%, transparent);
-  content: "";
-}
-
-.x-zen-outline-track::after {
-  position: absolute;
-  top: 0;
-  right: auto;
-  left: 5px;
-  width: 1px;
-  height: min(100%, calc(var(--x-zen-outline-count, 1) * 16px));
-  background: color-mix(in srgb, Canvas 92%, transparent);
-  content: "";
 }
 
 .x-zen-outline-anchor {
