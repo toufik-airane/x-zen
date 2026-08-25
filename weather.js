@@ -187,7 +187,9 @@
       if (requestedRevision !== requestRevision) return;
 
       weatherState = { data, enabled: true };
-      await chrome.storage.local.set({ [STORAGE_KEY]: weatherState });
+      await chrome.storage.local
+        .set({ [STORAGE_KEY]: weatherState })
+        .catch(() => {});
     } catch (error) {
       if (!weatherState.data) weatherState.enabled = false;
       render(error?.code === 1 ? "Location access is off" : "Weather unavailable");
@@ -203,7 +205,7 @@
     requestRevision += 1;
     loading = false;
     weatherState = { data: null, enabled: false };
-    await chrome.storage.local.remove(STORAGE_KEY);
+    await chrome.storage.local.remove(STORAGE_KEY).catch(() => {});
     render();
   }
 
@@ -252,21 +254,24 @@
   }
 
   const initialLoadRevision = requestRevision;
-  chrome.storage.local.get(STORAGE_KEY).then((result) => {
-    if (initialLoadRevision !== requestRevision) return;
-    weatherState = {
-      data: sanitizeData(result[STORAGE_KEY]?.data),
-      enabled: result[STORAGE_KEY]?.enabled === true
-    };
-    bootWidgets();
-    render();
-    if (
-      weatherState.enabled &&
-      (!weatherState.data || Date.now() - weatherState.data.updatedAt >= STALE_AFTER_MS)
-    ) {
-      updateWeather();
-    }
-  });
+  chrome.storage.local
+    .get(STORAGE_KEY)
+    .then((result) => {
+      if (initialLoadRevision !== requestRevision) return;
+      weatherState = {
+        data: sanitizeData(result[STORAGE_KEY]?.data),
+        enabled: result[STORAGE_KEY]?.enabled === true
+      };
+      bootWidgets();
+      render();
+      if (
+        weatherState.enabled &&
+        (!weatherState.data || Date.now() - weatherState.data.updatedAt >= STALE_AFTER_MS)
+      ) {
+        updateWeather();
+      }
+    })
+    .catch(() => {});
 
   chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName !== "local" || !changes[STORAGE_KEY]) return;

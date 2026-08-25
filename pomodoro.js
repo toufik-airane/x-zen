@@ -72,7 +72,9 @@
   }
 
   function persistState() {
-    return chrome.storage.local.set({ [STORAGE_KEY]: state });
+    return chrome.storage.local
+      .set({ [STORAGE_KEY]: state })
+      .catch(() => {});
   }
 
   function render() {
@@ -195,11 +197,14 @@
     if (ensureWidget()) bootObserver?.disconnect();
   }
 
-  chrome.storage.local.get(STORAGE_KEY).then((result) => {
-    state = sanitizeState(result[STORAGE_KEY]);
-    ensureWidget();
-    render();
-  });
+  chrome.storage.local
+    .get(STORAGE_KEY)
+    .then((result) => {
+      state = sanitizeState(result[STORAGE_KEY]);
+      ensureWidget();
+      render();
+    })
+    .catch(() => {});
 
   chrome.storage.onChanged.addListener((changes, areaName) => {
     if (areaName === "local" && changes[STORAGE_KEY]) {

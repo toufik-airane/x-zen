@@ -25,28 +25,8 @@
     };
   }
 
-  function createCooldown(durationMs, now = () => performance.now()) {
-    let lastAllowedAt = Number.NEGATIVE_INFINITY;
-
-    return Object.freeze({
-      attempt() {
-        const currentTime = now();
-        const elapsed = currentTime - lastAllowedAt;
-
-        if (elapsed >= durationMs) {
-          lastAllowedAt = currentTime;
-          return { allowed: true, remainingMs: 0 };
-        }
-
-        return { allowed: false, remainingMs: durationMs - elapsed };
-      }
-    });
-  }
-
   global.X_ZEN = Object.freeze({
-    createCooldown,
     defaults,
-    normalizeFeedWidth,
     sanitize,
     storageKey: "settings"
   });

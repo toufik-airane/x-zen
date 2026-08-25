@@ -184,7 +184,7 @@ assert.match(content, /UI_REVEAL_FALLBACK_MS = 1000/);
 assert.match(content, /scheduleInterfaceReveal/);
 assert.match(content, /dataset\.xZenUiReady = "true"/);
 assert.match(content, /setInterval\(scheduleInterfaceReveal, 25\)/);
-assert.match(content, /chrome\.storage\.local\.set/);
+assert.match(content, /chrome\.storage\.local\.set|chrome\.storage\.local\s*\n\s*\.set/);
 assert.match(content, /homeLink\.click\(\)/);
 assert.match(content, /handleKeyboardShortcut/);
 assert.match(content, /isEditableTarget/);
@@ -202,18 +202,6 @@ const context = vm.createContext({ globalThis: {} });
 vm.runInContext(shared, context);
 
 let now = 1000;
-const cooldown = context.globalThis.X_ZEN.createCooldown(5000, () => now);
-assert.equal(cooldown.attempt().allowed, true);
-now = 2000;
-assert.deepEqual(
-  { ...cooldown.attempt() },
-  { allowed: false, remainingMs: 4000 }
-);
-now = 5999;
-assert.equal(cooldown.attempt().allowed, false);
-now = 6000;
-assert.equal(cooldown.attempt().allowed, true);
-
 const { sanitize } = context.globalThis.X_ZEN;
 assert.equal(sanitize({ feedWidth: 847 }).feedWidth, 840);
 assert.equal(sanitize({ feedWidth: 200 }).feedWidth, 560);
@@ -300,7 +288,7 @@ assert.doesNotMatch(outline, /trackedTweets\.delete/);
 assert.doesNotMatch(`${outline}\n${outlineLabels}`, /chrome\.storage|fetch\(/);
 assert.match(styles, /#x-zen-outline \{[\s\S]*top: 44px/);
 assert.match(styles, /calc\(100vw - 156px\)/);
-assert.match(styles, /\.x-zen-outline-track::before \{[\s\S]*left: 5px/);
+assert.doesNotMatch(styles, /\.x-zen-outline-track::(?:before|after)/);
 assert.match(styles, /\.x-zen-outline-anchor/);
 assert.match(
   styles,
@@ -335,7 +323,7 @@ assert.match(hourlyBell, /x-zen-sound/);
 assert.match(hourlyBell, /hourlyBellEnabled/);
 assert.match(hourlyBell, /aria-pressed/);
 assert.match(hourlyBell, /x-zen-preview-hourly-bell/);
-assert.match(hourlyBell, /chrome\.storage\.session\.set/);
+assert.match(hourlyBell, /chrome\.storage\.session\.set|chrome\.storage\.session\s*\n\s*\.set/);
 assert.match(hourlyBell, /x-zen-wake-hourly-bell/);
 
 const offscreen = await readFile(new URL("offscreen.js", root), "utf8");

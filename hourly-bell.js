@@ -22,7 +22,11 @@
   async function toggle(button) {
     enabled = !enabled;
     render(button);
-    await chrome.storage.session.set({ [ENABLED_KEY]: enabled });
+    await chrome.storage.session
+      .set({ [ENABLED_KEY]: enabled })
+      .catch((error) => {
+        console.error("x-zen could not save the bell setting", error);
+      });
     if (enabled) {
       try {
         await chrome.runtime.sendMessage({ type: PREVIEW_MESSAGE });
