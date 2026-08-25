@@ -15,7 +15,7 @@ PRIVACY FIRST
 • No analytics, advertising, accounts, or developer server.
 • X.com content is processed only in your browser and is not retained or sent.
 • Weather is off until you opt in.
-• Coordinates are rounded before the weather request and are never stored by x-zen.
+• Rounded coordinates go to Open-Meteo for the forecast and BigDataCloud for an approximate city name. They are never stored by x-zen.
 • The hourly sound is disabled by default and uses only a bundled audio file.
 
-x-zen is an independent extension and is not affiliated with X Corp. or Open-Meteo.
+x-zen is an independent extension and is not affiliated with X Corp., Open-Meteo, or BigDataCloud.

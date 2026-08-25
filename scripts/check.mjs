@@ -67,6 +67,7 @@ await assertPngDimensions("store-assets/marquee-promo.png", 1400, 560);
 assert.doesNotMatch(storeDescription, /(^|\n)\s{0,3}#{1,6}\s/m);
 assert.doesNotMatch(storeDescription, /\*\*|__|```|\[[^\]]+\]\([^)]+\)/);
 assert.match(storeDescription, /calmer and easier to focus/);
+assert.match(storeDescription, /BigDataCloud/);
 assert.match(
   readme,
   new RegExp(`Current version: \\*\\*${manifest.version}\\*\\*`)
@@ -87,7 +88,10 @@ assert.match(website, /nonemmfagigefdfmgebidhnebidanedg/);
 assert.match(website, /href="icon\.svg"/);
 assert.match(websiteIcon, /mint calathea leaf/);
 assert.match(website, /visible article titles/);
+assert.match(website, /BigDataCloud/);
 assert.match(privacyPolicy, /visible article titles/);
+assert.match(privacyPolicy, /BigDataCloud/);
+assert.match(storeListing, /BigDataCloud/);
 assert.match(styles, /\[data-testid="sidebarColumn"\]/);
 assert.match(styles, /display: none !important/);
 assert.match(styles, /@keyframes x-zen-shake/);
@@ -339,6 +343,10 @@ const packageScript = await readFile(
   "utf8"
 );
 assert.match(packageScript, /"README\.md"/);
+assert.match(packageScript, /"CHANGELOG\.md"/);
+assert.match(packageScript, /"LICENSE"/);
+assert.match(packageScript, /"PRIVACY\.md"/);
+assert.match(packageScript, /"SECURITY\.md"/);
 
 const releaseWorkflow = await readFile(
   new URL(".github/workflows/release.yml", root),

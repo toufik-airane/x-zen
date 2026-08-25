@@ -9,6 +9,10 @@ const outputDir = resolve(projectDir, "dist");
 const outputFile = resolve(outputDir, `x-zen-${manifest.version}.zip`);
 const files = [
   "README.md",
+  "CHANGELOG.md",
+  "LICENSE",
+  "PRIVACY.md",
+  "SECURITY.md",
   "manifest.json",
   "shared.js",
   "background.js",

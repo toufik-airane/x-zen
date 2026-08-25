@@ -41,10 +41,13 @@ local weather. Coordinates are not stored.
 feed sizing, refresh cooldown, Pomodoro, clock, and weather card on X.com.
 
 **Host access for api.open-meteo.com:** Required only to fetch current weather
-after the user opts in.
+after the user opts in. The optional approximate city lookup also sends the
+same rounded coordinates to BigDataCloud over HTTPS. Its endpoint permits the
+request without an additional extension host permission.
 
 **Remote code:** No. All executable code and audio are included in the extension
-package. The Open-Meteo response contains weather data only and is not executed.
+package. Open-Meteo and BigDataCloud responses contain data only and are not
+executed.
 
 **Data categories to disclose:** Location; Website content.
 
@@ -54,8 +57,9 @@ controls and provide outline navigation labels. No posts, messages, account
 details, article titles, or other page content are stored or sent.
 
 **Location explanation:** Location is handled only for the opt-in weather
-feature. Rounded coordinates are sent over HTTPS to Open-Meteo and are not
-stored by x-zen. Turning weather off deletes its cache and stops updates.
+feature. Rounded coordinates are sent over HTTPS to Open-Meteo for the forecast
+and to BigDataCloud for an approximate city name. Coordinates are not stored by
+x-zen. Turning weather off deletes its cache and stops updates.
 
 Certify every Limited Use statement. Use
 `https://toufik-airane.github.io/x-zen/` for the privacy-policy field.

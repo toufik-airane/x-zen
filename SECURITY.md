@@ -17,4 +17,5 @@ steps needed to reproduce it. Reports are reviewed before public disclosure.
 
 x-zen executes no remote code and has no developer-operated server. The
 extension processes X.com content locally, stores only disclosed preferences
-and feature state, and contacts Open-Meteo only for user-enabled weather.
+and feature state, and contacts Open-Meteo and BigDataCloud only for
+user-enabled weather.

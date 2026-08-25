@@ -63,9 +63,9 @@ It processes X.com page structure, interface labels, short post excerpts, and
 visible article titles locally. It does not store or transmit X.com content.
 
 Weather is off until the user opts in. When enabled, x-zen rounds the device
-coordinates to two decimal places and sends them over HTTPS only to Open-Meteo.
-Coordinates are not stored. Turning weather off deletes the cached weather
-result and stops updates.
+coordinates to two decimal places and sends them over HTTPS to Open-Meteo for
+the forecast and BigDataCloud for an approximate city name. Coordinates are not
+stored. Turning weather off deletes the cached weather result and stops updates.
 
 | Permission | Why it is required |
 | --- | --- |

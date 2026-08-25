@@ -50,7 +50,8 @@ analytics, user accounts, or developer-operated server.
 x-zen keeps settings and feature state only in Chrome storage. Turning weather
 off in its card deletes the cached result and stops automatic updates. Users
 can delete all extension data by removing the extension or by clearing its
-stored data in Chrome. Open-Meteo controls its own server-log retention.
+stored data in Chrome. Open-Meteo and BigDataCloud control retention of their
+own server logs under their respective policies.
 
 ## Security
 

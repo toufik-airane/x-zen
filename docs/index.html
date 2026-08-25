@@ -209,23 +209,23 @@
 
       <section class="policy" aria-labelledby="privacy-title">
         <h2 id="privacy-title">Privacy Policy</h2>
-        <p class="date">Effective August 21, 2026</p>
+        <p class="date">Effective August 26, 2026</p>
 
         <p>x-zen has one purpose: make the desktop X.com feed calmer and easier to focus on. It removes selected interface elements and promoted posts, centers the feed, limits rapid refreshes, and adds optional focus tools.</p>
 
         <h3>Data x-zen handles</h3>
         <ul>
           <li><strong>X.com page content:</strong> x-zen processes X.com page structure, interface labels, short text excerpts, and visible article titles locally in the browser. This content is used only for interface cleanup and outline navigation labels. x-zen does not store or transmit posts, messages, account details, article titles, or other X.com content.</li>
-          <li><strong>Location:</strong> only after the user selects <strong>Share approximate location</strong>, the browser gives x-zen the device location. x-zen rounds latitude and longitude to two decimal places before sending them over HTTPS to Open-Meteo to request local weather. x-zen does not store the exact or rounded coordinates.</li>
+          <li><strong>Location:</strong> only after the user selects <strong>Share approximate location</strong>, the browser gives x-zen the device location. x-zen rounds latitude and longitude to two decimal places before sending them over HTTPS to Open-Meteo to request local weather and to BigDataCloud to look up an approximate city name. If the city lookup fails, weather still works and the city label is omitted. x-zen does not store the exact or rounded coordinates.</li>
           <li><strong>Extension settings:</strong> feed width and interface preferences are stored with Chrome synchronized storage. Google can synchronize these values when Chrome Sync is enabled.</li>
-          <li><strong>Focus, sound, and weather state:</strong> the Pomodoro state, optional hourly-bell preference, and latest weather result are stored locally in Chrome. Cached weather is treated as stale after 30 minutes and is then updated while weather remains enabled. The cache contains conditions and temperatures, not coordinates. The bell is a bundled local file and makes no network request.</li>
+          <li><strong>Focus, sound, and weather state:</strong> the Pomodoro state, optional hourly-bell preference, and latest weather result are stored locally in Chrome. Cached weather is treated as stale after 30 minutes and is then updated while weather remains enabled. The cache contains conditions, temperatures, and the approximate city name, not coordinates. The bell is a bundled local file and makes no network request.</li>
         </ul>
 
         <h3>Data sharing</h3>
-        <p>Rounded coordinates are sent only to Open-Meteo when the user enables or updates weather. Open-Meteo can process the request IP address and coordinates under its <a href="https://open-meteo.com/en/terms">Terms and Privacy policy</a>, which states that API server logs can be retained for up to 90 days. No other user data is sold, shared, or transferred. x-zen has no advertising, analytics, user accounts, or developer-operated server.</p>
+        <p>Rounded coordinates are sent only to Open-Meteo for the weather forecast and to BigDataCloud for the approximate city lookup when the user enables or updates weather. Open-Meteo can process the request IP address and coordinates under its <a href="https://open-meteo.com/en/terms">Terms and Privacy policy</a>, which states that API server logs can be retained for up to 90 days. BigDataCloud processes the request under its <a href="https://www.bigdatacloud.com/privacy/">privacy policy</a>. No other user data is sold, shared, or transferred. x-zen has no advertising, analytics, user accounts, or developer-operated server.</p>
 
         <h3>Retention and deletion</h3>
-        <p>x-zen keeps settings and feature state only in Chrome storage. Turning weather off in its card deletes the cached result and stops automatic updates. Users can delete all extension data by removing the extension or by clearing its stored data in Chrome. Open-Meteo controls its own server-log retention.</p>
+        <p>x-zen keeps settings and feature state only in Chrome storage. Turning weather off in its card deletes the cached result and stops automatic updates. Users can delete all extension data by removing the extension or by clearing its stored data in Chrome. Open-Meteo and BigDataCloud control retention of their own server logs under their respective policies.</p>
 
         <h3>Security</h3>
         <p>Weather requests use HTTPS. x-zen does not execute remote code. All extension logic is included in the installed package.</p>
@@ -236,7 +236,7 @@
         <h3>Changes and contact</h3>
         <p>Material changes to these practices will be disclosed in the extension before the changed handling begins. Questions can be sent through the support contact on the x-zen Chrome Web Store listing.</p>
 
-        <p>x-zen is an independent extension and is not affiliated with X Corp. or Open-Meteo.</p>
+        <p>x-zen is an independent extension and is not affiliated with X Corp., Open-Meteo, or BigDataCloud.</p>
       </section>
 
       <footer>© 2026 x-zen · Built for a quieter feed.</footer>
